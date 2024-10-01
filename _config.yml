@@ -21,7 +21,7 @@
 domain: https://4j4yk.github.io
 url: https://4j4yk.github.io
 
-title: Ajay | Technical Lead | Senior Software Developer
+title: Ajay / *-*
 description: A results-driven professional with over 10 years of IT experience, specializing in business analysis, application development, and technical leadership.
 
 email: i@ajayk.me
@@ -34,6 +34,7 @@ github_username: 4j4yk
 theme: minima
 plugins:
   - jekyll-feed
+  - jemoji
 
 # Exclude from processing.
 # The following items will not be processed, by default.
