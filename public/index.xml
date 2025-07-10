@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Ajay / *-*</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on Ajay / *-*</description>
+    <image>
+      <title>Ajay / *-*</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.148.0</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 10 Jul 2025 12:46:33 -0400</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mentoring in Tech</title>
+      <link>http://localhost:1313/posts/mentoring-in-tech/</link>
+      <pubDate>Thu, 10 Jul 2025 12:46:33 -0400</pubDate>
+      <guid>http://localhost:1313/posts/mentoring-in-tech/</guid>
+      <description>&lt;p&gt;Mentoring others is one of the most rewarding aspects of my career in tech. Whether guiding junior developers or helping colleagues navigate complex challenges, mentoring has been a powerful way to foster growth in others and grow as a leader. Mentorship in tech isn’t just about teaching someone how to code or troubleshoot—it’s about helping people develop their problem-solving skills, encouraging them to think critically, and supporting them as they find solutions. Over the years, I’ve realized that successful mentoring is a two-way street: while you’re imparting knowledge, you’re also learning from your mentees and growing your skills. Here’s what I’ve learned about building strong teams and fostering growth through mentorship:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>My Journey Into Tech</title>
+      <link>http://localhost:1313/posts/my-journey-into-tech/</link>
+      <pubDate>Thu, 10 Jul 2025 12:38:04 -0400</pubDate>
+      <guid>http://localhost:1313/posts/my-journey-into-tech/</guid>
+      <description>&lt;p&gt;When I started studying Computer Science, I never imagined my career’s twists and turns. The journey has been challenging and rewarding, from coding my first project in college to leading teams across industries.&lt;/p&gt;
+&lt;p&gt;It all started with a solid foundation in problem-solving and software development during my Bachelor’s, but things took off when I pursued a Master’s in Management Information Systems. That’s where I began connecting the dots between technology and business—learning how to leverage tech to solve real-world problems.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>About</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Tue, 08 Jul 2025 17:34:24 -0400</pubDate>
+      <guid>http://localhost:1313/about/</guid>
+      <description>&lt;p&gt;I always believe in setting a goal, focus on it and finally achieve it; then again, I have another goal to achieve.&lt;/p&gt;
+&lt;p&gt;I infer this by remembering tales of my childhood ; that is how I managed my small to big goals, from learning the Snake and Ladder game to becoming a software programmer. I aspire to broaden my knowledge and enthusiasm to solve the demanding problems faced by the industry. I encouraged myself to pursue a master&amp;rsquo;s degree in Management Information systems with zeal to learn more about the latest and upcoming technology with hands-on experience in research projects.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>books i&#39;m reading</title>
+      <link>http://localhost:1313/books/</link>
+      <pubDate>Tue, 08 Jul 2025 17:34:24 -0400</pubDate>
+      <guid>http://localhost:1313/books/</guid>
+      <description>&lt;p&gt;This work in progress, and I will keep this updating as my thoughts evolve and i get this site out the door ! :)&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>projects</title>
+      <link>http://localhost:1313/projects/</link>
+      <pubDate>Tue, 08 Jul 2025 17:34:24 -0400</pubDate>
+      <guid>http://localhost:1313/projects/</guid>
+      <description>&lt;p&gt;This work in progress, and I will keep this updating as my thoughts evolve and i get this site out the door ! :)&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
