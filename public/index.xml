@@ -11,8 +11,19 @@
     </image>
     <generator>Hugo -- 0.148.0</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 10 Jul 2025 12:46:33 -0400</lastBuildDate>
+    <lastBuildDate>Thu, 10 Jul 2025 16:02:57 -0400</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Leaf &amp; Spice Co.</title>
+      <link>http://localhost:1313/projects/leaf-spice-corp/</link>
+      <pubDate>Thu, 10 Jul 2025 16:02:57 -0400</pubDate>
+      <guid>http://localhost:1313/projects/leaf-spice-corp/</guid>
+      <description>&lt;h3 id=&#34;shopify-e-commerce-store-project-the-leaf--spice-co&#34;&gt;Shopify E-Commerce Store Project: &amp;ldquo;The Leaf &amp;amp; Spice Co.&amp;rdquo;&lt;/h3&gt;
+&lt;h3 id=&#34;business-owners-vision&#34;&gt;Business Owner’s Vision&lt;/h3&gt;
+&lt;p&gt;I’m starting a premium online store called “The Leaf &amp;amp; Spice Co.”, specializing in organic, hand-crafted paan blends, mouth fresheners (mukhwas), and herbal teas. The store will target health-conscious, modern consumers interested in traditional Indian products with a luxurious, global feel.&lt;/p&gt;
+&lt;p&gt;Shopify E-Commerce Project: The Leaf &amp;amp; Spice Co.&lt;/p&gt;
+&lt;p&gt;This project delivers a premium Shopify store featuring organic paan blends, mouth fresheners, and herbal teas. Managed using Agile methodology with Jira and GitHub.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Mentoring in Tech</title>
       <link>http://localhost:1313/posts/mentoring-in-tech/</link>
@@ -41,13 +52,6 @@
       <link>http://localhost:1313/books/</link>
       <pubDate>Tue, 08 Jul 2025 17:34:24 -0400</pubDate>
       <guid>http://localhost:1313/books/</guid>
-      <description>&lt;p&gt;This work in progress, and I will keep this updating as my thoughts evolve and i get this site out the door ! :)&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>projects</title>
-      <link>http://localhost:1313/projects/</link>
-      <pubDate>Tue, 08 Jul 2025 17:34:24 -0400</pubDate>
-      <guid>http://localhost:1313/projects/</guid>
       <description>&lt;p&gt;This work in progress, and I will keep this updating as my thoughts evolve and i get this site out the door ! :)&lt;/p&gt;</description>
     </item>
   </channel>
