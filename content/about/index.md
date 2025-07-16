@@ -12,9 +12,10 @@ I am an experienced Information Technology professional or (Fullstack Developer)
 INTERESTS
 🔭 Web Development
 🔭 Software Architecture
+🔭 Cloud Architecture
 🔭 Blockchain & Distributed Ledger Technologies
 🔭 Research And Education
 💪 Sports
 
 
-This work in progress, and I will keep this updating as my thoughts evolve and i get this site out the door ! :)
+`This work in progress, and I will keep this updating as my thoughts evolve and i get this site out the door ! :)`

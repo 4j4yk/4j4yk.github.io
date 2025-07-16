@@ -4,4 +4,7 @@ draft: false
 title: "books i'm reading"
 ---
 
-This work in progress, and I will keep this updating as my thoughts evolve and i get this site out the door ! :)
+- Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems - In progress
+
+
+`This work in progress, and I will keep this updating as my thoughts evolve and i get this site out the door ! :)`
