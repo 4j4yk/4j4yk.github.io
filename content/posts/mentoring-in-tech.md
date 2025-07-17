@@ -1,7 +1,8 @@
 ---
-date: '2025-07-10T12:46:33-04:00'
+date: '2025-07-10'
 draft: false
 title: 'Mentoring in Tech'
+tags: ["thoughts", "personal"]
 ---
 
 Mentoring others is one of the most rewarding aspects of my career in tech. Whether guiding junior developers or helping colleagues navigate complex challenges, mentoring has been a powerful way to foster growth in others and grow as a leader. Mentorship in tech isn’t just about teaching someone how to code or troubleshoot—it’s about helping people develop their problem-solving skills, encouraging them to think critically, and supporting them as they find solutions. Over the years, I’ve realized that successful mentoring is a two-way street: while you’re imparting knowledge, you’re also learning from your mentees and growing your skills. Here’s what I’ve learned about building strong teams and fostering growth through mentorship:

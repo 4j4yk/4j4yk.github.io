@@ -1,7 +1,8 @@
 ---
-date: '2025-07-16T16:09:12-04:00'
+date: '2025-07-17'
 draft: false
 title: 'Strawberry Aviation'
+tags: ["projects", "mage-os","e-commerce","opensource"]
 ---
 
 e-commerce site based on open source ecommerce framework - mage os

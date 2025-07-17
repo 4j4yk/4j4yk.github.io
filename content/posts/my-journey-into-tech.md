@@ -1,7 +1,8 @@
 ---
-date: '2025-07-10T12:38:04-04:00'
+date: '2025-07-11'
 draft: false
 title: 'My Journey Into Tech'
+tags: ["thoughts", "personal"]
 ---
 
 When I started studying Computer Science, I never imagined my career’s twists and turns. The journey has been challenging and rewarding, from coding my first project in college to leading teams across industries.

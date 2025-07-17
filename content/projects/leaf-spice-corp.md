@@ -1,7 +1,8 @@
 ---
-date: '2025-07-10T16:02:57-04:00'
+date: '2025-07-11'
 draft: false
 title: 'The Leaf & Spice Co.'
+tags: ["projects", "shopify"]
 ---
 
 ### Shopify E-Commerce Store Project: "The Leaf & Spice Co."
