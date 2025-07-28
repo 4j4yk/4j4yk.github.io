@@ -1,0 +1,34 @@
+<article class="el5-story" style="max-width: 700px; margin: 0 auto; font-size: 1.2em; line-height: 1.8; padding: 2rem;">
+
+  <!-- 🔙 Back to EL5 index -->
+  <nav style="margin-bottom: 1.5rem;">
+    <a href="/el5" style="text-decoration: none; color: #007acc;">← Back to EL5 Stories</a>
+  </nav>
+
+  <!-- 📖 Story Header -->
+  <header style="text-align: center; margin-bottom: 2rem;">
+    <h1>{{ .Title }}</h1>
+    <p><em>{{ .Date.Format "Jan 2, 2006" }}</em></p>
+    <hr style="margin-top: 1rem;" />
+  </header>
+
+  <!-- 📚 Story Content -->
+  <section>
+    {{ .Content }}
+  </section>
+
+  <!-- 🧭 Navigation Footer -->
+  <footer style="margin-top: 3rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #ccc; padding-top: 1.5rem;">
+    <div>
+      {{ with .PrevInSection }}
+        <a href="{{ .RelPermalink }}">← Previous: {{ .Title }}</a>
+      {{ end }}
+    </div>
+    <div>
+      {{ with .NextInSection }}
+        <a href="{{ .RelPermalink }}">Next: {{ .Title }} →</a>
+      {{ end }}
+    </div>
+  </footer>
+
+</article>
