@@ -144,6 +144,9 @@ menu:
       url: "/projects/"
       weight: 4
 
+    - name: "🎈 EL5"
+      url: "/el5/"
+      weight: 5
     # - name: "🔍 Search"
     #   url: "search"
     #   weight: 5
