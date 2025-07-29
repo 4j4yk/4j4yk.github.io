@@ -147,6 +147,9 @@ menu:
     - name: "🎈 EL5"
       url: "/el5/"
       weight: 5
+    - name: "🎮 ⚽ 🎧"
+      url: "/extra/"
+      weight: 7
     # - name: "🔍 Search"
     #   url: "search"
     #   weight: 5
