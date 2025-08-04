@@ -140,10 +140,6 @@ menu:
       url: "/projects/"
       weight: 4
 
-    - name: "📁 Projects"
-      url: "/projects/"
-      weight: 4
-
     - name: "🎈 EL5"
       url: "/el5/"
       weight: 5
@@ -157,6 +153,10 @@ menu:
     - name: "⚡ Skills"
       url: "/skills/"
       weight: 6
+
+    - name: "🔍 Research"
+      url: "/research/"
+      weight: 4
 
 pygmentsUseClasses: true
 markup:
