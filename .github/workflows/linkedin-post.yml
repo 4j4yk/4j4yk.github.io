@@ -1,0 +1,59 @@
+name: Post to LinkedIn on new blog post
+on:
+  push:
+    paths:
+      - 'content/posts/**'         # adjust if you publish elsewhere
+      - 'content/el5/**'
+      - 'content/api/**'
+      - 'content/books/**'
+      # optionally include other folders
+
+jobs:
+  post_to_linkedin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get latest post info
+        id: latest
+        run: |
+          POST_FILE=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^content/posts/' | head -n1)
+          echo "post_file=$POST_FILE" >> $GITHUB_OUTPUT
+          echo "Found file: $POST_FILE"
+
+      - name: Extract Title & URL
+        id: extract
+        run: |
+          FILE="${{ steps.latest.outputs.post_file }}"
+          TITLE=$(grep '^title:' $FILE | sed 's/title: *\"//;s/\"$//')
+          URL="${{ github.event.repository.homepage }}${FILE%.md}/"
+          echo "title=$TITLE" >> $GITHUB_OUTPUT
+          echo "url=$URL" >> $GITHUB_OUTPUT
+
+      - name: Post update to LinkedIn
+        uses: actions/http-client@v1
+        with:
+          url: https://api.linkedin.com/v2/ugcPosts
+          method: POST
+          headers: |
+            Authorization: Bearer ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+            Content-Type: application/json
+            X-Restli-Protocol-Version: 2.0.0
+          body: |
+            {
+              "author": "${{ secrets.LINKEDIN_AUTHOR_ID }}",
+              "lifecycleState": "PUBLISHED",
+              "specificContent": {
+                "com.linkedin.ugc.ShareContent": {
+                  "shareCommentary": {
+                    "text": "New blog post: ${{ steps.extract.outputs.title }}\nRead it here: ${{ steps.extract.outputs.url }}"
+                  },
+                  "shareMediaCategory": "ARTICLE"
+                }
+              },
+              "visibility": {
+                "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+              }
+            }
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
