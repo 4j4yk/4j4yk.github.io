@@ -84,7 +84,7 @@ jobs:
             ${{ runner.temp }}/hugo_cache
           key: ${{ steps.cache-restore.outputs.cache-primary-key }}
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./public
 
@@ -98,4 +98,160 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
+
+  publish-linkedin:
+    name: Share new article on LinkedIn
+    if: github.event_name == 'push'
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.148.0"
+          extended: true
+
+      - name: Find one newly published article
+        id: article
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          zero_sha="0000000000000000000000000000000000000000"
+          if [[ -n "${BEFORE_SHA:-}" && "$BEFORE_SHA" != "$zero_sha" ]]; then
+            git diff --name-only --diff-filter=A "$BEFORE_SHA" "$HEAD_SHA" > added-files.txt
+          else
+            git diff-tree --no-commit-id --name-only --diff-filter=A -r "$HEAD_SHA" > added-files.txt
+          fi
+
+          hugo list all > hugo-pages.csv
+
+          python3 - <<'PY'
+          import csv
+          import os
+          import sys
+          from datetime import datetime, timezone
+
+          def parse_date(value):
+              value = (value or "").strip()
+              if not value or value.startswith("0001-01-01"):
+                  return None
+              if value.endswith("Z"):
+                  value = value[:-1] + "+00:00"
+              return datetime.fromisoformat(value)
+
+          added = {
+              line.strip()
+              for line in open("added-files.txt", encoding="utf-8")
+              if line.strip().startswith("content/posts/") and line.strip().endswith(".md")
+          }
+
+          now = datetime.now(timezone.utc)
+          candidates = []
+          with open("hugo-pages.csv", newline="", encoding="utf-8") as pages:
+              for row in csv.DictReader(pages):
+                  if row["path"] not in added or row["kind"] != "page" or row["section"] != "posts":
+                      continue
+                  publish_at = parse_date(row["publishDate"]) or parse_date(row["date"])
+                  if row["draft"].lower() == "true" or (publish_at and publish_at > now):
+                      continue
+                  if row["title"].strip() and row["permalink"].strip():
+                      candidates.append(row)
+
+          output = os.environ["GITHUB_OUTPUT"]
+          with open(output, "a", encoding="utf-8") as out:
+              if not candidates:
+                  out.write("should_post=false\n")
+                  print("No newly published article found; LinkedIn will be skipped.")
+                  sys.exit(0)
+              if len(candidates) > 1:
+                  print("More than one new article was published. Skipping to prevent accidental duplicate posts.")
+                  out.write("should_post=false\n")
+                  sys.exit(0)
+
+              article = candidates[0]
+              out.write("should_post=true\n")
+              for key, value in (("title", article["title"]), ("url", article["permalink"])):
+                  out.write(f"{key}<<__VALUE__\n{value}\n__VALUE__\n")
+              print(f"LinkedIn candidate: {article['title']} ({article['permalink']})")
+          PY
+
+      - name: Confirm the published page is available
+        if: steps.article.outputs.should_post == 'true'
+        env:
+          ARTICLE_URL: ${{ steps.article.outputs.url }}
+        run: |
+          set -euo pipefail
+          for attempt in {1..12}; do
+            status=$(curl --silent --output /dev/null --write-out '%{http_code}' "$ARTICLE_URL")
+            if [[ "$status" == "200" ]]; then
+              echo "Published page is available."
+              exit 0
+            fi
+            echo "Page returned HTTP $status; retrying in 10 seconds."
+            sleep 10
+          done
+          echo "The deployed article did not become available in time."
+          exit 1
+
+      - name: Share article on LinkedIn
+        if: steps.article.outputs.should_post == 'true'
+        env:
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_AUTHOR_ID: ${{ secrets.LINKEDIN_AUTHOR_ID }}
+          ARTICLE_TITLE: ${{ steps.article.outputs.title }}
+          ARTICLE_URL: ${{ steps.article.outputs.url }}
+        run: |
+          set -euo pipefail
+
+          if [[ -z "${LINKEDIN_ACCESS_TOKEN:-}" || -z "${LINKEDIN_AUTHOR_ID:-}" ]]; then
+            echo "Add LINKEDIN_ACCESS_TOKEN and LINKEDIN_AUTHOR_ID as repository secrets."
+            exit 1
+          fi
+
+          if [[ "$LINKEDIN_AUTHOR_ID" == urn:li:person:* ]]; then
+            author="$LINKEDIN_AUTHOR_ID"
+          else
+            author="urn:li:person:$LINKEDIN_AUTHOR_ID"
+          fi
+
+          payload=$(jq -n \
+            --arg author "$author" \
+            --arg title "$ARTICLE_TITLE" \
+            --arg url "$ARTICLE_URL" \
+            --arg commentary "I’ve just published a new article: $ARTICLE_TITLE\n\nHave a read and let me know what you think." \
+            '{
+              author: $author,
+              lifecycleState: "PUBLISHED",
+              specificContent: {
+                "com.linkedin.ugc.ShareContent": {
+                  shareCommentary: {text: $commentary},
+                  shareMediaCategory: "ARTICLE",
+                  media: [{
+                    status: "READY",
+                    originalUrl: $url,
+                    title: {text: $title}
+                  }]
+                }
+              },
+              visibility: {
+                "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+              }
+            }')
+
+          curl --fail-with-body --silent --show-error \
+            --request POST "https://api.linkedin.com/v2/ugcPosts" \
+            --header "Authorization: Bearer $LINKEDIN_ACCESS_TOKEN" \
+            --header "Content-Type: application/json" \
+            --header "X-Restli-Protocol-Version: 2.0.0" \
+            --data "$payload"
+
+          echo "Article shared successfully on LinkedIn."
