@@ -1,0 +1,13 @@
+{{- /* Optional daily quote displayed when data/singles contains an entry for today. */ -}}
+{{ $quotes := .Site.Data.singles }}
+{{ $today := now.Format "2006-01-02" }}  <!-- Hugo's date format -->
+{{ range $quotes }}
+  {{ if eq .date $today }}
+    <div class="quote-box">
+      <blockquote class="quote">
+        <p>{{ .text }}</p>
+        <footer>— {{ .author }}</footer>
+      </blockquote>
+    </div>
+  {{ end }}
+{{ end }}

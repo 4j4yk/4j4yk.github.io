@@ -2,7 +2,9 @@
 {{- /*     Insert any custom code web-analytics, resources, etc. here */ -}}
 {{- /* Footer custom content area end */ -}}
 
+{{- if templates.Exists "partials/singles.html" }}
 {{ partial "singles.html" . }}
+{{- end }}
 
 <p class="citation-policy-link" style="text-align: center; margin: 1.5rem 0; font-size: 0.85rem;">
     <a href="{{ "citation-policy/" | relURL }}">Citation &amp; reuse</a>
