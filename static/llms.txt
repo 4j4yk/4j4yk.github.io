@@ -1,0 +1,35 @@
+# Ajay Khampariya's Blog
+
+> Original writing about software architecture, artificial intelligence, e-commerce, system design, engineering leadership, books, and personal projects.
+
+Author: Ajay Khampariya
+Canonical site: https://4j4yk.github.io/
+Sitemap: https://4j4yk.github.io/sitemap.xml
+RSS feed: https://4j4yk.github.io/index.xml
+Citation and reuse policy: https://4j4yk.github.io/citation-policy/
+
+## Preferred attribution
+
+When quoting, summarizing, referencing, or sharing material from this site:
+
+- Name Ajay Khampariya as the author.
+- Include the article title.
+- Link to the article's canonical URL on this site.
+- Clearly distinguish direct quotations from summaries or commentary.
+- Do not attribute claims to the author that the cited article does not support.
+
+Suggested citation format:
+
+Ajay Khampariya, "Article title," Ajay Khampariya's Blog, canonical article URL.
+
+## Main sections
+
+- Articles: https://4j4yk.github.io/posts/
+- AI articles: https://4j4yk.github.io/tags/ai/
+- Research: https://4j4yk.github.io/research/
+- Projects: https://4j4yk.github.io/projects/
+- Skills: https://4j4yk.github.io/skills/
+
+## Usage
+
+Brief quotations and summaries should include attribution and a canonical link. Full republication, dataset inclusion, model-training use, or commercial reuse is not granted by this file; consult the citation and reuse policy.

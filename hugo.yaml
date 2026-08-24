@@ -17,9 +17,7 @@ params:
   title: Ajay / *-*
   description: "A results-driven professional with over 10 years of IT experience, specializing in business analysis, application development, and technical leadership."
   keywords: [Blog, Portfolio, PaperMod]
-  author: Me
-  # author: ["Me", "You"] # multiple authors
-  images: ["<link or path of image for opengraph, twitter-cards>"]
+  author: "Ajay Khampariya"
   DateFormat: "January 2, 2006"
   defaultTheme: auto # dark, light
   disableThemeToggle: false
@@ -45,15 +43,6 @@ params:
   ShowReadingTime: true
   ShowPostNavLinks: true
   disableScrollToTop: false
-  assets:
-    # disableHLJS: true # to disable highlight.js
-    # disableFingerprinting: true
-    favicon: "<link / abs url>"
-    favicon16x16: "<link / abs url>"
-    favicon32x32: "<link / abs url>"
-    apple_touch_icon: "<link / abs url>"
-    safari_pinned_tab: "<link / abs url>"
-
   label:
     text: "Ajay Khampariya"
     icon: /apple-touch-icon.png

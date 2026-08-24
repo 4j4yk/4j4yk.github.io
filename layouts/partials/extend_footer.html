@@ -2,6 +2,13 @@
 {{- /*     Insert any custom code web-analytics, resources, etc. here */ -}}
 {{- /* Footer custom content area end */ -}}
 
+{{ partial "singles.html" . }}
+
+<p class="citation-policy-link" style="text-align: center; margin: 1.5rem 0; font-size: 0.85rem;">
+    <a href="{{ "citation-policy/" | relURL }}">Citation &amp; reuse</a>
+    · <a href="{{ "llms.txt" | relURL }}">llms.txt</a>
+</p>
+
 <script>
     // Source: https://github.com/adityatelange/hugo-PaperMod/discussions/943
     // START hamburger menu

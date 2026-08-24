@@ -1,0 +1,13 @@
+{{- if and .IsPage (eq .Section "posts") }}
+<meta name="citation_title" content="{{ .Title }}">
+<meta name="citation_author" content="{{ .Params.author | default site.Params.author }}">
+<meta name="citation_publication_date" content="{{ .PublishDate.Format "2006/01/02" }}">
+<meta name="citation_online_date" content="{{ .PublishDate.Format "2006/01/02" }}">
+<meta name="citation_language" content="{{ .Language.Lang | default "en" }}">
+<meta name="citation_fulltext_html_url" content="{{ .Permalink }}">
+<meta name="dc.creator" content="{{ .Params.author | default site.Params.author }}">
+<meta name="dc.title" content="{{ .Title }}">
+<meta name="dc.date" content="{{ .PublishDate.Format "2006-01-02" }}">
+<meta name="dc.identifier" content="{{ .Permalink }}">
+<meta name="dc.rights" content="Copyright {{ .PublishDate.Format "2006" }} Ajay Khampariya. Citation and reuse policy: {{ "citation-policy/" | absURL }}">
+{{- end }}
