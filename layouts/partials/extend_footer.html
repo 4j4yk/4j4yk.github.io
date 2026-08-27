@@ -27,3 +27,78 @@
     });
     // END hamburger menu
 </script>
+
+<script>
+    (() => {
+        const filterButtons = [...document.querySelectorAll('.project-filter')];
+        const projectCards = [...document.querySelectorAll('.project-card')];
+
+        filterButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const filter = button.dataset.filter;
+
+                filterButtons.forEach((item) => {
+                    const isActive = item === button;
+                    item.classList.toggle('is-active', isActive);
+                    item.setAttribute('aria-pressed', String(isActive));
+                });
+
+                projectCards.forEach((card) => {
+                    const matches = filter === 'all' || card.dataset.projectTerms.includes(filter);
+                    card.hidden = !matches;
+                });
+            });
+        });
+
+        if (window.location.pathname.includes('/posts/') && document.querySelector('.post-single')) {
+            const progress = document.createElement('div');
+            progress.className = 'reading-progress';
+            progress.setAttribute('role', 'progressbar');
+            progress.setAttribute('aria-label', 'Article reading progress');
+            progress.setAttribute('aria-valuemin', '0');
+            progress.setAttribute('aria-valuemax', '100');
+            document.body.appendChild(progress);
+
+            const updateProgress = () => {
+                const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+                const value = scrollable > 0 ? Math.min(100, Math.max(0, (window.scrollY / scrollable) * 100)) : 100;
+                progress.style.width = `${value}%`;
+                progress.setAttribute('aria-valuenow', String(Math.round(value)));
+            };
+
+            updateProgress();
+            window.addEventListener('scroll', updateProgress, { passive: true });
+            window.addEventListener('resize', updateProgress);
+        }
+
+        document.querySelectorAll('.post-content img[alt*="The-Wraith"]').forEach((image) => {
+            image.classList.add('rift-trigger');
+            image.title = 'Click to open a rift';
+            image.tabIndex = 0;
+            image.setAttribute('role', 'button');
+            image.setAttribute('aria-label', 'Animate The-Wraith entering a rift');
+
+            const openRift = () => {
+                if (image.classList.contains('rift-jumping')) return;
+                image.classList.add('rift-jumping');
+
+                const flash = document.createElement('div');
+                flash.className = 'rift-flash';
+                document.body.appendChild(flash);
+
+                window.setTimeout(() => {
+                    image.classList.remove('rift-jumping');
+                    flash.remove();
+                }, 900);
+            };
+
+            image.addEventListener('click', openRift);
+            image.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openRift();
+                }
+            });
+        });
+    })();
+</script>
