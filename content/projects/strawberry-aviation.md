@@ -3,6 +3,9 @@ date: '2025-07-17'
 draft: false
 title: 'Strawberry Aviation'
 tags: ["projects", "mage-os","e-commerce","opensource"]
+summary: "An open-source ecommerce experiment built around Mage-OS, with storefront architecture and platform customization in progress."
+description: "A Mage-OS ecommerce experiment exploring open-source commerce architecture and storefront development."
+status: "In progress"
 ---
 
 e-commerce site based on open source ecommerce framework - mage os

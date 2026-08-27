@@ -2,7 +2,10 @@
 date: '2025-07-11'
 draft: false
 title: 'The Leaf & Spice Co.'
-tags: ["projects", "shopify"]
+tags: ["projects", "shopify", "e-commerce"]
+summary: "A premium Shopify storefront concept for traditional Indian paan blends, mouth fresheners and herbal teas."
+description: "A Shopify ecommerce project covering store setup, branding, catalog management, checkout and launch planning."
+status: "In progress"
 ---
 
 ### Shopify E-Commerce Store Project: "The Leaf & Spice Co."
