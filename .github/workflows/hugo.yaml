@@ -9,6 +9,11 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      linkedin_article_path:
+        description: "Optional article source path to publish on LinkedIn, for example content/posts/my-article.md"
+        required: false
+        type: string
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -102,7 +107,7 @@ jobs:
 
   publish-linkedin:
     name: Share new article on LinkedIn
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || inputs.linkedin_article_path != ''
     needs: deploy
     runs-on: ubuntu-latest
     steps:
@@ -123,11 +128,18 @@ jobs:
         env:
           BEFORE_SHA: ${{ github.event.before }}
           HEAD_SHA: ${{ github.sha }}
+          MANUAL_ARTICLE_PATH: ${{ inputs.linkedin_article_path }}
         run: |
           set -euo pipefail
 
           zero_sha="0000000000000000000000000000000000000000"
-          if [[ -n "${BEFORE_SHA:-}" && "$BEFORE_SHA" != "$zero_sha" ]]; then
+          if [[ -n "${MANUAL_ARTICLE_PATH:-}" ]]; then
+            if [[ "$MANUAL_ARTICLE_PATH" != content/posts/*.md || ! -f "$MANUAL_ARTICLE_PATH" ]]; then
+              echo "Manual article path must identify an existing Markdown file under content/posts/."
+              exit 1
+            fi
+            printf '%s\n' "$MANUAL_ARTICLE_PATH" > added-files.txt
+          elif [[ -n "${BEFORE_SHA:-}" && "$BEFORE_SHA" != "$zero_sha" ]]; then
             git diff --name-only --diff-filter=A "$BEFORE_SHA" "$HEAD_SHA" > added-files.txt
           else
             git diff-tree --no-commit-id --name-only --diff-filter=A -r "$HEAD_SHA" > added-files.txt
@@ -192,7 +204,7 @@ jobs:
         run: |
           set -euo pipefail
           for attempt in {1..12}; do
-            status=$(curl --silent --output /dev/null --write-out '%{http_code}' "$ARTICLE_URL")
+            status=$(curl --location --silent --output /dev/null --write-out '%{http_code}' "$ARTICLE_URL")
             if [[ "$status" == "200" ]]; then
               echo "Published page is available."
               exit 0
