@@ -20,6 +20,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  copilot-requests: write
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
@@ -191,11 +192,88 @@ jobs:
                   sys.exit(0)
 
               article = candidates[0]
+              source_path = article["path"]
+              source = open(source_path, encoding="utf-8").read()
+              front_matter = ""
+              body = source
+              if source.startswith("---\n"):
+                  parts = source.split("---", 2)
+                  if len(parts) == 3:
+                      front_matter, body = parts[1], parts[2]
+
+              linkedin_text = ""
+              lines = front_matter.splitlines()
+              for index, line in enumerate(lines):
+                  if not line.startswith("linkedin_text:"):
+                      continue
+                  value = line.split(":", 1)[1].strip()
+                  if value in ("|", ">"):
+                      block = []
+                      for block_line in lines[index + 1:]:
+                          if block_line.startswith((" ", "\t")):
+                              block.append(block_line.strip())
+                          else:
+                              break
+                      linkedin_text = ("\n" if value == "|" else " ").join(block).strip()
+                  else:
+                      linkedin_text = value.strip('"\'').strip()
+                  break
+
+              excerpt_lines = []
+              in_code_block = False
+              for line in body.splitlines():
+                  if line.strip().startswith("```"):
+                      in_code_block = not in_code_block
+                      continue
+                  if in_code_block:
+                      continue
+                  cleaned = line.strip().lstrip("#>*- ").strip()
+                  if cleaned:
+                      excerpt_lines.append(cleaned)
+                  if len(" ".join(excerpt_lines)) >= 1800:
+                      break
+              excerpt = " ".join(excerpt_lines)[:1800]
+
               out.write("should_post=true\n")
-              for key, value in (("title", article["title"]), ("url", article["permalink"])):
+              for key, value in (
+                  ("title", article["title"]),
+                  ("url", article["permalink"]),
+                  ("linkedin_text", linkedin_text),
+                  ("excerpt", excerpt),
+              ):
                   out.write(f"{key}<<__VALUE__\n{value}\n__VALUE__\n")
               print(f"LinkedIn candidate: {article['title']} ({article['permalink']})")
           PY
+
+      - name: Generate a LinkedIn introduction with Copilot
+        id: copilot
+        if: steps.article.outputs.should_post == 'true' && steps.article.outputs.linkedin_text == ''
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          ARTICLE_TITLE: ${{ steps.article.outputs.title }}
+          ARTICLE_EXCERPT: ${{ steps.article.outputs.excerpt }}
+        run: |
+          set -euo pipefail
+          npm install --global @github/copilot
+
+          prompt=$(printf '%s\n\nTitle: %s\n\nArticle excerpt:\n%s' \
+            'Write a LinkedIn introduction for this blog article. Return only the post text, with no title label, quotation marks, URL, or hashtags. Use 2 or 3 short paragraphs and no more than 500 characters. It should sound like a person sharing thoughts out loud, with a small sense of story or curiosity. Slightly imperfect and conversational is better than polished corporate language. Never use an em dash or double dash. Avoid phrases such as thrilled to announce, excited to share, game changer, dive into, and let me know what you think. Do not invent facts beyond the supplied article.' \
+            "$ARTICLE_TITLE" \
+            "$ARTICLE_EXCERPT")
+
+          generated=$(copilot -p "$prompt" -s --no-ask-user)
+          generated=$(printf '%s' "$generated" | tr -d '\r')
+          if [[ -z "$generated" || ${#generated} -gt 700 ]]; then
+            echo "Copilot returned an empty or unexpectedly long message. The fallback will be used."
+            exit 1
+          fi
+
+          {
+            echo "text<<__COPILOT_VALUE__"
+            printf '%s\n' "$generated"
+            echo "__COPILOT_VALUE__"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Confirm the published page is available
         if: steps.article.outputs.should_post == 'true'
@@ -222,6 +300,8 @@ jobs:
           LINKEDIN_AUTHOR_ID: ${{ secrets.LINKEDIN_AUTHOR_ID }}
           ARTICLE_TITLE: ${{ steps.article.outputs.title }}
           ARTICLE_URL: ${{ steps.article.outputs.url }}
+          CUSTOM_LINKEDIN_TEXT: ${{ steps.article.outputs.linkedin_text }}
+          GENERATED_LINKEDIN_TEXT: ${{ steps.copilot.outputs.text }}
         run: |
           set -euo pipefail
 
@@ -236,11 +316,30 @@ jobs:
             author="urn:li:person:$LINKEDIN_AUTHOR_ID"
           fi
 
+          if [[ -n "${CUSTOM_LINKEDIN_TEXT:-}" ]]; then
+            introduction="$CUSTOM_LINKEDIN_TEXT"
+            echo "Using linkedin_text from the article."
+          elif [[ -n "${GENERATED_LINKEDIN_TEXT:-}" ]]; then
+            introduction="$GENERATED_LINKEDIN_TEXT"
+            echo "Using a Copilot-generated introduction."
+          else
+            printf -v introduction \
+              'I was playing around with an idea and ended up writing down what happened.\n\n%s\n\nCurious how other people would approach it.' \
+              "$ARTICLE_TITLE"
+            echo "Using the fallback introduction."
+          fi
+
+          if [[ "$introduction" == *"$ARTICLE_URL"* ]]; then
+            commentary="$introduction"
+          else
+            printf -v commentary '%s\n\n%s' "$introduction" "$ARTICLE_URL"
+          fi
+
           payload=$(jq -n \
             --arg author "$author" \
             --arg title "$ARTICLE_TITLE" \
             --arg url "$ARTICLE_URL" \
-            --arg commentary "I’ve just published a new article: $ARTICLE_TITLE\n\nHave a read and let me know what you think." \
+            --arg commentary "$commentary" \
             '{
               author: $author,
               commentary: $commentary,
