@@ -11,3 +11,27 @@
 <meta name="dc.identifier" content="{{ .Permalink }}">
 <meta name="dc.rights" content="Copyright {{ .PublishDate.Format "2006" }} Ajay Khampariya. Citation and reuse policy: {{ "citation-policy/" | absURL }}">
 {{- end }}
+
+<script>
+    (() => {
+        const themes = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+
+        const applyDailyTheme = () => {
+            document.documentElement.dataset.dayTheme = themes[new Date().getDay()];
+        };
+
+        const scheduleNextDay = () => {
+            const now = new Date();
+            const nextDay = new Date(now);
+            nextDay.setHours(24, 0, 0, 0);
+
+            window.setTimeout(() => {
+                applyDailyTheme();
+                scheduleNextDay();
+            }, nextDay.getTime() - now.getTime());
+        };
+
+        applyDailyTheme();
+        scheduleNextDay();
+    })();
+</script>

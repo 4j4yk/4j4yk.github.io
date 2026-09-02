@@ -109,6 +109,49 @@
   --card-shadow: 0 8px 22px rgba(23, 43, 46, 0.07);
 }
 
+/* Weekday accents inspired by the traditional planetary color calendar. */
+:root[data-day-theme="monday"] {
+  --accent: #657786;
+  --accent-bright: #465965;
+  --accent-soft: rgba(101, 119, 134, 0.12);
+}
+
+:root[data-day-theme="tuesday"] {
+  --accent: #b24b3f;
+  --accent-bright: #8d362e;
+  --accent-soft: rgba(178, 75, 63, 0.11);
+}
+
+:root[data-day-theme="wednesday"] {
+  --accent: #2f7d4a;
+  --accent-bright: #216238;
+  --accent-soft: rgba(47, 125, 74, 0.11);
+}
+
+:root[data-day-theme="thursday"] {
+  --accent: #8a6815;
+  --accent-bright: #6d5008;
+  --accent-soft: rgba(138, 104, 21, 0.12);
+}
+
+:root[data-day-theme="friday"] {
+  --accent: #a24f71;
+  --accent-bright: #7f3958;
+  --accent-soft: rgba(162, 79, 113, 0.11);
+}
+
+:root[data-day-theme="saturday"] {
+  --accent: #40566f;
+  --accent-bright: #2e4158;
+  --accent-soft: rgba(64, 86, 111, 0.12);
+}
+
+:root[data-day-theme="sunday"] {
+  --accent: #b75a1d;
+  --accent-bright: #8f4210;
+  --accent-soft: rgba(183, 90, 29, 0.11);
+}
+
 body.dark {
   --accent: #58aeb0;
   --accent-bright: #79c4c5;
@@ -121,6 +164,48 @@ body.dark {
   --border: #344047;
   --card-shadow: 0 10px 26px rgba(4, 12, 15, 0.28);
   background: var(--theme);
+}
+
+:root[data-day-theme="monday"] body.dark {
+  --accent: #b7c4cc;
+  --accent-bright: #d7e0e5;
+  --accent-soft: rgba(183, 196, 204, 0.13);
+}
+
+:root[data-day-theme="tuesday"] body.dark {
+  --accent: #e27a6d;
+  --accent-bright: #f29a8f;
+  --accent-soft: rgba(226, 122, 109, 0.13);
+}
+
+:root[data-day-theme="wednesday"] body.dark {
+  --accent: #63b77e;
+  --accent-bright: #86cc9c;
+  --accent-soft: rgba(99, 183, 126, 0.13);
+}
+
+:root[data-day-theme="thursday"] body.dark {
+  --accent: #d4ad45;
+  --accent-bright: #e8c866;
+  --accent-soft: rgba(212, 173, 69, 0.13);
+}
+
+:root[data-day-theme="friday"] body.dark {
+  --accent: #d783a5;
+  --accent-bright: #efa9c4;
+  --accent-soft: rgba(215, 131, 165, 0.13);
+}
+
+:root[data-day-theme="saturday"] body.dark {
+  --accent: #829dbb;
+  --accent-bright: #a6bbd2;
+  --accent-soft: rgba(130, 157, 187, 0.13);
+}
+
+:root[data-day-theme="sunday"] body.dark {
+  --accent: #e78a45;
+  --accent-bright: #f4aa70;
+  --accent-soft: rgba(231, 138, 69, 0.13);
 }
 
 .nav a:hover,
