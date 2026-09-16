@@ -4,9 +4,9 @@ draft: false
 title: 'The-Wraith'
 type: projects
 tags: ["projects", "ai", "v0", "vercel", "nextjs", "react"]
-summary: "An AI-assisted demo storefront for fictional dimension-traveling pirate ships, built with v0 and evolved through reviewed, reversible changes."
+summary: "A fictional pirate-ship storefront built to explore AI-assisted development with v0, Next.js, and Vercel."
 description: "The-Wraith is a fictional pirate-ship storefront used to explore v0, Next.js, GitHub workflows and automatic Vercel deployments."
-status: "Active experiment"
+status: "Live demo"
 cover:
   image: "https://raw.githubusercontent.com/4j4yk/The-Wraith/main/public/product-ship.png"
   alt: "The-Wraith dimension-traveling pirate ship storefront"
