@@ -30,6 +30,60 @@
 
 <script>
     (() => {
+        const eyes = document.querySelector('.site-eyes');
+        const finePointer = window.matchMedia('(pointer: fine)');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        if (eyes && finePointer.matches && !reducedMotion.matches) {
+            let pointerFrame;
+            let latestPointer;
+            let blinkTimer;
+
+            const centerEyes = () => {
+                eyes.style.setProperty('--eye-x', '0px');
+                eyes.style.setProperty('--eye-y', '0px');
+            };
+
+            const moveEyes = () => {
+                pointerFrame = undefined;
+                if (!latestPointer) return;
+
+                const bounds = eyes.getBoundingClientRect();
+                const deltaX = latestPointer.clientX - (bounds.left + bounds.width / 2);
+                const deltaY = latestPointer.clientY - (bounds.top + bounds.height / 2);
+                const angle = Math.atan2(deltaY, deltaX);
+                const distance = Math.min(4, Math.hypot(deltaX, deltaY) / 28);
+
+                eyes.style.setProperty('--eye-x', `${Math.cos(angle) * distance}px`);
+                eyes.style.setProperty('--eye-y', `${Math.sin(angle) * distance}px`);
+            };
+
+            const followPointer = (event) => {
+                latestPointer = event;
+                if (!pointerFrame) pointerFrame = window.requestAnimationFrame(moveEyes);
+            };
+
+            const scheduleBlink = () => {
+                blinkTimer = window.setTimeout(() => {
+                    if (!document.hidden) {
+                        eyes.classList.add('is-blinking');
+                        window.setTimeout(() => eyes.classList.remove('is-blinking'), 340);
+                    }
+                    scheduleBlink();
+                }, 4500 + Math.random() * 4000);
+            };
+
+            document.addEventListener('pointermove', followPointer, { passive: true });
+            document.documentElement.addEventListener('mouseleave', centerEyes);
+            window.addEventListener('blur', centerEyes);
+            scheduleBlink();
+
+            window.addEventListener('pagehide', () => {
+                window.clearTimeout(blinkTimer);
+                if (pointerFrame) window.cancelAnimationFrame(pointerFrame);
+            }, { once: true });
+        }
+
         const filterButtons = [...document.querySelectorAll('.project-filter')];
         const projectCards = [...document.querySelectorAll('.project-card')];
 

@@ -72,6 +72,10 @@
                 {{- $label_text -}}
             </a>
             {{- end }}
+            <span class="site-eyes" aria-hidden="true">
+                <span class="site-eye"><span class="site-pupil"></span></span>
+                <span class="site-eye"><span class="site-pupil"></span></span>
+            </span>
             <div class="logo-switches">
                 {{- if (not site.Params.disableThemeToggle) }}
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">

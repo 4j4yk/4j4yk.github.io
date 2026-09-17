@@ -166,6 +166,54 @@ body.dark {
   background: var(--theme);
 }
 
+/* A small header character that follows fine-pointer movement. */
+.site-eyes {
+  --eye-x: 0px;
+  --eye-y: 0px;
+  display: inline-flex;
+  align-self: center;
+  gap: 3px;
+  margin: 0 7px 0 9px;
+  pointer-events: none;
+}
+
+.site-eye {
+  position: relative;
+  display: inline-flex;
+  width: 15px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accent) 66%, var(--border));
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: inset 0 -2px 0 rgba(15, 27, 29, 0.06);
+  transform-origin: center;
+}
+
+.site-pupil {
+  width: 6px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-bright);
+  transform: translate(var(--eye-x), var(--eye-y));
+  transition: transform 80ms ease-out, background 180ms ease;
+}
+
+.site-eyes.is-blinking .site-eye {
+  animation: site-eye-blink 150ms ease-in-out 2 alternate;
+}
+
+body.dark .site-eye {
+  background: #eef2ed;
+  box-shadow: inset 0 -2px 0 rgba(15, 27, 29, 0.14);
+}
+
+@keyframes site-eye-blink {
+  to { transform: scaleY(0.12); }
+}
+
 :root[data-day-theme="monday"] body.dark {
   --accent: #b7c4cc;
   --accent-bright: #d7e0e5;
@@ -603,6 +651,21 @@ body.dark {
   .rift-trigger.rift-jumping,
   .rift-flash {
     animation: none;
+  }
+
+  .site-pupil {
+    transform: none;
+    transition: none;
+  }
+
+  .site-eyes.is-blinking .site-eye {
+    animation: none;
+  }
+}
+
+@media (pointer: coarse) {
+  .site-eyes {
+    display: none;
   }
 }
 
